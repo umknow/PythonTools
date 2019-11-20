@@ -39,5 +39,44 @@ print('销毁a1对象后')
 for item in wd.items():
     print(item)
 
+print("*" * 40)
+
+# 【实现简单的垃圾回收机制】
+
+
+class Container:
+    def __init__(self):
+        self.dict = {}
+
+    def add(self, obj):
+        # 维护弱引用, 实现gc回调
+        self.dict[weakref.ref(obj, self.gc)] = id(obj)
+
+    def gc(self, ref_obj):
+        obj_id = self.dict[ref_obj]
+        print("移除object id:", obj_id, "weakref对象:", ref_obj, "指向的对象:", ref_obj())
+        del self.dict[ref_obj]
+
+
+class SomeCls:
+    pass
+
+
+# 容器
+container = Container()
+# 任意对象
+obj1 = SomeCls()
+obj2 = SomeCls()
+# 加入容器
+container.add(obj1)
+container.add(obj2)
+# 释放对象
+del obj2
+del obj1
+
+
+
+
+
 while 1:
     time.sleep(10)  # 阻止退出触发del，导致不方便观察
