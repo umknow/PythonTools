@@ -23,16 +23,7 @@ class HelloMeta(type):
         setattr(cls, "_new_dict", attrs_)
 
 
-class NewHello(object):  # metaclass=HelloMeta
-    """常规类"""
-    a = 1
-    b = True
-
-    def __init__(self):
-        self.c = "sss"
-
-
-class NewHelloM(object, metaclass=HelloMeta):  # metaclass=HelloMeta
+class NewHelloM(object,  metaclass=HelloMeta):  # metaclass=HelloMeta
     """自定义元类"""
     a = 1
     b = True
@@ -41,6 +32,28 @@ class NewHelloM(object, metaclass=HelloMeta):  # metaclass=HelloMeta
         self.c = "sss"
 
 
+class Sheng:
+    pass
+
+
+class Wang(Sheng):
+    pass
+
+
+class Yong:
+    pass
+
+
+class NewHello(Wang, Yong):  # metaclass=HelloMeta
+    """常规类"""
+    a = 1
+    b = True
+
+    def __init__(self):
+        self.c = "sss"
+
+
+print("继承顺序查看：", NewHello.__mro__)
 print("常规类实例前：", NewHello.__dict__)
 h2 = NewHello()
 print("常规类实例后：", h2.__dict__)
