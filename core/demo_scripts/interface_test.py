@@ -3,20 +3,24 @@
 # datetime: 2019/11/21 11:31
 # describtion: 
 """
-    python 接口的实现
+    Python 接口的实现
+    Python默认不支持接口和抽象类
+    利用了第三方包实现
+    抽象类和接口类是两个类似而又不同的概念
+    方案一其实只是抽象类
+    方案二符合真正意义上的接口规范
 """
 import abc
-
 from zope.interface import Interface
 from zope.interface.declarations import implementer
 
 
 # 【方案一：继承ABC抽象基类】
 class Base(abc.ABC):
-    """抽象基类，接口（白鹅特性）
+    """抽象基类（白鹅特性）
         https://blog.csdn.net/weixin_34240520/article/details/93561832
     """
-
+    a = "ss"  # 抽象类中可以添加类属性，并且子类不用去实现
     @abc.abstractmethod
     def my_protocol(self):
         """
@@ -35,7 +39,7 @@ class Base(abc.ABC):
         return NotImplemented
 
 
-class MyClass:
+class MyClass:  # 抽象类中实现了__subclasshook__所以这里不用显示继承也可以
     def my_protocol(self):
         pass
 
@@ -50,7 +54,7 @@ class MyMiss(Interface):
         """Say i miss you at lost to miss"""
 
 
-@implementer(MyMiss)  # 继承接口
+@implementer(MyMiss)  # 继承接口，这里的继承其实跟通常意义上的继承还是不一样的
 class Miss:
     def imissyouatlost(self, somebody):
         """Say i miss you at lost to somebody"""
